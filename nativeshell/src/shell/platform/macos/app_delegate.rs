@@ -249,6 +249,10 @@ lazy_static! {
             sel!(application:openURLs:),
             open_urls as extern "C" fn(&Object, Sel, id, id),
         );
+        decl.add_method(
+            sel!(application:continueUserActivity:restorationHandler:),
+            continue_user_activity as extern "C" fn(&Object, Sel, id, id, id),
+        );
         ApplicationDelegateClass(decl.register())
     };
 }
@@ -450,6 +454,17 @@ extern "C" fn open_urls(this: &Object, _sel: Sel, _sender: id, urls: id) {
     with_delegate(this, |delegate| {
         delegate.application_open_urls(&u);
     })
+}
+
+extern "C" fn continue_user_activity(
+    this: &Object,
+    _sel: Sel,
+    _sender: id,
+    acctivity: id,
+    restoration_handler: id,
+) {
+    println!("\nLink clicked!\nContinue user activity!");
+    eprintln!("\nLink clicked!\nContinue user activity!");
 }
 
 //
